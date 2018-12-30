@@ -59,6 +59,7 @@
     ]
   },
   "dependencies": {
-    "@types/node": "^10.12.18"
+    "@types/node": "^10.12.18",
+    "npm": "^6.5.0"
   }
 }
