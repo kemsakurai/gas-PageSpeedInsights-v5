@@ -60,6 +60,8 @@
   },
   "dependencies": {
     "@types/node": "^10.12.18",
-    "npm": "^6.5.0"
+    "npm": "^6.5.0",
+    "merge": ">=1.2.1",
+    "randomatic": ">=3.0.0"
   }
 }
