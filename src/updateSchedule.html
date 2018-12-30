@@ -1,0 +1,257 @@
+<html>
+<head>
+<script src="//www.google.com/jsapi"></script><script>window.parent.maeExportApis_();</script>
+<link rel="stylesheet" href="https://ssl.gstatic.com/docs/script/css/add-ons.css">
+<style>
+body {
+  margin: 0;
+}
+form {
+  overflow: hidden;
+}
+select {
+  margin: 0 6px;
+  padding-left: 6px;
+}
+.form-row {
+  margin: 10px 0 20px;
+}
+.form-action {
+  margin: 30px 0 0;
+}
+</style>
+</head><body style=""><form id="schedule">
+  <div id="automate-container" class="form-row">
+    <label>
+      <input name="automate" type="hidden" value="0">
+      <input id="automate" name="automate" type="checkbox" value="1">
+      Enable reports to run automatically.
+    </label>
+  </div>
+  <div class="form-row" id="automate-options-container" style="display:none">
+    <label id="interval-container">
+      Schedule reports to run
+      <select id="interval" name="interval">
+                  <option value="0">minutes based</option>
+                  <option value="1">every hour</option>
+                  <option value="2" selected="">every day</option>
+                  <option value="3">every week</option>
+                  <option value="4">every month</option>
+      </select>
+    </label>
+    <label id="dayOfWeek-container" style="display:none">
+      on
+      <select id="dayOfWeek" name="dayOfWeek">
+                  <option value="0" selected="">
+            Monday          </option>
+                  <option value="1">
+            Tuesday          </option>
+                  <option value="2">
+            Wednesday          </option>
+                  <option value="3">
+            Thursday          </option>
+                  <option value="4">
+            Friday          </option>
+                  <option value="5">
+            Saturday          </option>
+                  <option value="6">
+            Sunday          </option>
+              </select>
+    </label>
+    <label id="dayOfMonth-container" style="display:none">
+      on the
+      <select id="dayOfMonth" name="dayOfMonth">
+                  <option value="0" selected="">
+            1st          </option>
+                  <option value="1">
+            2nd          </option>
+                  <option value="2">
+            3rd          </option>
+                  <option value="3">
+            4th          </option>
+                  <option value="4">
+            5th          </option>
+                  <option value="5">
+            6th          </option>
+                  <option value="6">
+            7th          </option>
+                  <option value="7">
+            8th          </option>
+                  <option value="8">
+            9th          </option>
+                  <option value="9">
+            10th          </option>
+                  <option value="10">
+            11th          </option>
+                  <option value="11">
+            12th          </option>
+                  <option value="12">
+            13th          </option>
+                  <option value="13">
+            14th          </option>
+                  <option value="14">
+            15th          </option>
+                  <option value="15">
+            16th          </option>
+                  <option value="16">
+            17th          </option>
+                  <option value="17">
+            18th          </option>
+                  <option value="18">
+            19th          </option>
+                  <option value="19">
+            20th          </option>
+                  <option value="20">
+            21st          </option>
+                  <option value="21">
+            22nd          </option>
+                  <option value="22">
+            23rd          </option>
+                  <option value="23">
+            24th          </option>
+                  <option value="24">
+            25th          </option>
+                  <option value="25">
+            26th          </option>
+                  <option value="26">
+            27th          </option>
+                  <option value="27">
+            28th          </option>
+                  <option value="28">
+            29th          </option>
+                  <option value="29">
+            30th          </option>
+                  <option value="30">
+            31st          </option>
+              </select>
+    </label>
+
+    <label id="hourOfDay-container">
+      between
+      <select id="hourOfDay" name="hourOfDay">
+                  <option value="0">
+            midnight &nbsp;–&nbsp; 1 a.m.         </option>
+                  <option value="1">
+            1 a.m. &nbsp;–&nbsp; 2 a.m.           </option>
+                  <option value="2">
+            2 a.m. &nbsp;–&nbsp; 3 a.m.           </option>
+                  <option value="3">
+            3 a.m. &nbsp;–&nbsp; 4 a.m.           </option>
+                  <option value="4" selected="">
+            4 a.m. &nbsp;–&nbsp; 5 a.m.           </option>
+                  <option value="5">
+            5 a.m. &nbsp;–&nbsp; 6 a.m.           </option>
+                  <option value="6">
+            6 a.m. &nbsp;–&nbsp; 7 a.m.           </option>
+                  <option value="7">
+            7 a.m. &nbsp;–&nbsp; 8 a.m.           </option>
+                  <option value="8">
+            8 a.m. &nbsp;–&nbsp; 9 a.m.           </option>
+                  <option value="9">
+            9 a.m. &nbsp;–&nbsp; 10 a.m.          </option>
+                  <option value="10">
+            10 a.m. &nbsp;–&nbsp; 11 a.m.         </option>
+                  <option value="11">
+            11 a.m. &nbsp;–&nbsp; noon            </option>
+                  <option value="12">
+            noon &nbsp;–&nbsp; 1 p.m.             </option>
+                  <option value="13">
+            1 p.m. &nbsp;–&nbsp; 2 p.m.           </option>
+                  <option value="14">
+            2 p.m. &nbsp;–&nbsp; 3 p.m.           </option>
+                  <option value="15">
+            3 p.m. &nbsp;–&nbsp; 4 p.m.           </option>
+                  <option value="16">
+            4 p.m. &nbsp;–&nbsp; 5 p.m.           </option>
+                  <option value="17">
+            5 p.m. &nbsp;–&nbsp; 6 p.m.           </option>
+                  <option value="18">
+            6 p.m. &nbsp;–&nbsp; 7 p.m.           </option>
+                  <option value="19">
+            7 p.m. &nbsp;–&nbsp; 8 p.m.           </option>
+                  <option value="20">
+            8 p.m. &nbsp;–&nbsp; 9 p.m.           </option>
+                  <option value="21">
+            9 p.m. &nbsp;–&nbsp; 10 p.m.          </option>
+                  <option value="22">
+            10 p.m. &nbsp;–&nbsp; 11 p.m.         </option>
+                  <option value="23">
+            11 p.m. &nbsp;–&nbsp; midnight        </option>
+              </select>
+    </label>
+    <label id="minituesOfHour-container" style="display:none">
+      every 
+            <select id="minitueOfHour" name="minitueOfHour">
+            <option value="1">1 minute</option>
+            <option value="5">5 minutes</option>
+            <option value="10">10 minutes</option>
+            <option value="15">15 minutes</option>
+            <option value="30">30 minutes</option>
+           </select>
+    </label>
+  </div>
+
+  <div class="form-action">
+    <button class="action" type="submit">Save</button>
+    <button onclick="google.script.host.close()" type="button">Cancel</button>
+  </div>
+
+</form>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+<script>
+$('#schedule').on('submit', function(e) {
+  e.preventDefault();
+  var formData = $(this).serializeArray();
+  google.script.run
+      .withSuccessHandler(google.script.host.close)
+      .withFailureHandler(alert)
+      .updateSchedule(formData);
+});
+$('#automate').on('click', function() {
+  if ($(this).is(':checked')) {
+    $('#automate-options-container').show();
+    google.script.host.setHeight($(document.body).height());
+  }
+  else {
+    $('#automate-options-container').hide();
+    google.script.host.setHeight($(document.body).height());
+  }
+});
+$('#interval').on('change', function() {
+  switch (+$(this).val()) {
+    case 0:
+      $('#minituesOfHour-container').show();
+      $('#dayOfWeek-container').hide();
+      $('#dayOfMonth-container').hide();
+      $('#hourOfDay-container').hide();
+      break;
+    case 1: 
+      $('#minituesOfHour-container').hide();
+      $('#dayOfWeek-container').hide();
+      $('#dayOfMonth-container').hide();
+      $('#hourOfDay-container').hide();
+      break;
+    case 2: 
+      $('#minituesOfHour-container').hide();
+      $('#dayOfWeek-container').hide();
+      $('#dayOfMonth-container').hide();
+      $('#hourOfDay-container').show();
+      break;
+    case 3: 
+      $('#minituesOfHour-container').hide();
+      $('#dayOfWeek-container').show();
+      $('#dayOfMonth-container').hide();
+      $('#hourOfDay-container').show();
+      break;
+    case 4: 
+      $('#minituesOfHour-container').hide();
+      $('#dayOfWeek-container').hide();
+      $('#dayOfMonth-container').show();
+      $('#hourOfDay-container').show();
+      break;
+  }
+});
+google.script.host.setHeight($(document.body).height());
+</script>
+</body></html>
