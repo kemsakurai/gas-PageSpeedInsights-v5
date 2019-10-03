@@ -2,8 +2,6 @@ import Utils from './Utils';
 
 export const createRecordingSheet = (): void => {
   Logger.log('createRecordingSheet start');
-  const configSheetName = 'config';
-  const configSheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(configSheetName);
   const sheetNames = Utils.getColumValues('config', 'B', 1);
   for (let sheetName of sheetNames) {
     let sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(sheetName);
