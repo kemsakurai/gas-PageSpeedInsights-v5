@@ -60,7 +60,7 @@
   },
   "dependencies": {
     "@types/node": "^10.17.47",
-    "merge": "^2.1.0",
+    "merge": "^2.1.1",
     "npm": "^6.13.4",
     "randomatic": ">=3.0.0"
   }
