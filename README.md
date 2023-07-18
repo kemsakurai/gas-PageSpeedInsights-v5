@@ -81,6 +81,7 @@ Specify the URL to be recorded, create a sheet for recording, and set schedule e
 	Based on the contents of the config sheet, create a recording sheet.     
 	The recording sheet has the following columns.     
 	These are MOBILE and DESKTOP scores, basic speed indicators.     
+	To maintain compatibility,  column deletions have not been implemented. (ex: firstCpuIdle)  
 		* DATE
 		* MOBILE.accessibilityScore
 		* MOBILE.bestPracticesScore
@@ -91,8 +92,8 @@ Specify the URL to be recorded, create a sheet for recording, and set schedule e
 		* MOBILE.speedIndex
 		* MOBILE.interactive
 		* MOBILE.firstMeaningfulPaint
-		* MOBILE.firstCpuIdle
-		* MOBILE.estimatedInputLatency
+		* MOBILE.firstCpuIdle (Deprecated from Lighthouse 6.0) 
+		* MOBILE.estimatedInputLatency (Deprecated? from Lighthouse 6.0) 
 		* DESKTOP.accessibilityScore
 		* DESKTOP.bestPracticesScore
 		* DESKTOP.performanceScore
@@ -102,8 +103,8 @@ Specify the URL to be recorded, create a sheet for recording, and set schedule e
 		* DESKTOP.speedIndex
 		* DESKTOP.interactive
 		* DESKTOP.firstMeaningfulPaint
-		* DESKTOP.firstCpuIdle
-		* DESKTOP.estimatedInputLatency     
+		* DESKTOP.firstCpuIdle (Deprecated from Lighthouse 6.0)    
+		* DESKTOP.estimatedInputLatency (Deprecated? from Lighthouse 6.0) 
 
 	* **3. Run Test**       
 	After "Test Sheet Creation" "Create Recording Sheet", you can execute "Test Execution".        

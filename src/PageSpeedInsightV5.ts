@@ -90,12 +90,9 @@ export default class PageSpeedInsightV5 {
       firstMeaningfulPaint: Utils.convertDisplayValueToNumber(
         response.lighthouseResult.audits['first-meaningful-paint'].displayValue
       ),
-      firstCpuIdle: Utils.convertDisplayValueToNumber(
-        response.lighthouseResult.audits['first-cpu-idle'].displayValue
-      ),
-      estimatedInputLatency: Utils.convertDisplayValueToNumber(
-        response.lighthouseResult.audits['estimated-input-latency'].displayValue
-      )
+      // First CPU Idle is deprecated from Lighthouse 6.0. see. https://developer.chrome.com/docs/lighthouse/performance/first-cpu-idle/
+      firstCpuIdle: undefined,
+      estimatedInputLatency: undefined
     };
     return result;
   }

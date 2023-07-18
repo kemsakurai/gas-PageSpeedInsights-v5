@@ -39,8 +39,8 @@ export const runPageSpeedTest = (): void => {
       resultArr.push(result.speedIndex);
       resultArr.push(result.interactive);
       resultArr.push(result.firstMeaningfulPaint);
-      resultArr.push(result.firstCpuIdle);
-      resultArr.push(result.estimatedInputLatency);
+      resultArr.push(result.firstCpuIdle ?? '');
+      resultArr.push(result.estimatedInputLatency ?? '');
     }
     const activeSpreadsheet = SpreadsheetApp.getActiveSpreadsheet();
     if (!activeSpreadsheet) {

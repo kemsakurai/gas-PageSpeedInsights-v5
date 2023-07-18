@@ -1,10 +1,10 @@
 {
-  "name": "gas-PageSpeedInsights-v5",
+  "name": "gas-pagespeedinsights-v5",
   "version": "0.0.1",
   "description": "",
   "main": "index.js",
   "scripts": {
-    "lint": "tslint --fix src/**/*.ts",
+    "lint": "tslint --fix \"src/**/*.ts\"",
     "test": "jest",
     "build": "npm run lint && rimraf dist && webpack && cpx src/appsscript.json dist",
     "deploy": "npm run build && clasp push"
@@ -40,7 +40,6 @@
     "tslint": "^5.20.1",
     "tslint-config-prettier": "^1.18.0",
     "tslint-plugin-prettier": "^2.3.0",
-    "typescript": "^3.9.7",
     "webpack": "^4.44.2",
     "webpack-cli": "^3.3.12"
   },
@@ -62,6 +61,7 @@
     "@types/node": "^10.17.47",
     "merge": "^2.1.0",
     "npm": "^6.13.4",
-    "randomatic": ">=3.0.0"
+    "randomatic": ">=3.0.0",
+    "typescript": "^5.1.6"
   }
 }
