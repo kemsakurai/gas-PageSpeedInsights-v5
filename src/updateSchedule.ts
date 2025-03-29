@@ -20,7 +20,12 @@ type FormData = {
   minitueOfHour: number;
 };
 
-export const updateSchedule = (formData: any): void => {
+type FormElement = {
+  name: string;
+  value: any;
+};
+
+export const updateSchedule = (formData: FormElement[]): void => {
   const data: FormData = toJson_(formData);
   Logger.log(data);
   if (data != null) {
@@ -81,10 +86,10 @@ export const updateSchedule = (formData: any): void => {
 };
 
 //serializeArrayをjsonに変換する
-function toJson_(formData): FormData {
-  var result = {};
+function toJson_(formData: FormElement[]): FormData {
+  var result: Record<string, any> = {};
   var automateValue = 0;
-  formData.forEach(function(elem, i) {
+  formData.forEach(function(elem: FormElement, i: number) {
     if (elem['name'] == 'automate' && elem['value'] == 1) {
       automateValue = 1;
     }
@@ -118,7 +123,7 @@ function deleteTrigger_() {
 }
 
 //トリガーを発行
-function setTrigger_(triggerId) {
+function setTrigger_(triggerId: string) {
   //あとでトリガーを削除するためにトリガーIDを保存しておく
   PropertiesService.getScriptProperties().setProperty(KEY, triggerId);
 }

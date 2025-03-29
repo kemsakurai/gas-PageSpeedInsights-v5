@@ -1,7 +1,8 @@
 import Utils from './Utils';
 import * as queryString from 'querystring';
 
-declare type Options = Partial<{
+// Optionsをエクスポートして、他のファイルから使用できるようにする
+export declare type Options = Partial<{
   locale: string;
   strategy: string;
   category: string;
@@ -20,8 +21,8 @@ export type PageSpeedInsightV5Result = {
   speedIndex: number;
   interactive: number;
   firstMeaningfulPaint: number;
-  firstCpuIdle: number;
-  estimatedInputLatency: number;
+  firstCpuIdle: number | undefined;
+  estimatedInputLatency: number | undefined;
 };
 
 export default class PageSpeedInsightV5 {

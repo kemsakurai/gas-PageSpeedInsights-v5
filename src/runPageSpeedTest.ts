@@ -1,5 +1,4 @@
-import PageSpeedInsightV5 from './PageSpeedInsightV5';
-import { PageSpeedInsightV5Result } from './PageSpeedInsightV5';
+import PageSpeedInsightV5, { PageSpeedInsightV5Result, Options } from './PageSpeedInsightV5';
 import Utils from './Utils';
 
 export const runPageSpeedTest = (): void => {
@@ -25,9 +24,19 @@ export const runPageSpeedTest = (): void => {
       const psi = new PageSpeedInsightV5(key);
       let result: PageSpeedInsightV5Result;
       try {
-        result = psi.runTest(urls[i], { strategy: strategy });
+        // urls[i][0]が存在することを確認し、明示的に文字列に変換
+        const url = urls[i] && urls[i][0] ? String(urls[i][0]) : '';
+        if (!url) {
+          throw new Error(`Invalid URL at index ${i}: ${urls[i]}`);
+        }
+
+        // 明示的にOptions型の変数を作成する（推奨方法）
+        const options: Options = {
+          strategy: strategy
+        };
+        result = psi.runTest(url, options);
       } catch (error) {
-        Logger.log('Failed runTest', error);
+        Logger.log('Failed runTest', error as Object);
         throw error;
       }
       resultArr.push(result.accessibilityScore);
