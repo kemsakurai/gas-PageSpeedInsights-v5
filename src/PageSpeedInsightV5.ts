@@ -76,7 +76,9 @@ export default class PageSpeedInsightV5 {
       accessibilityScore: response.lighthouseResult.categories.accessibility.score,
       bestPracticesScore: response.lighthouseResult.categories['best-practices'].score,
       performanceScore: response.lighthouseResult.categories.performance.score,
-      pwaScore: response.lighthouseResult.categories.pwa.score,
+      pwaScore: response.lighthouseResult.categories.pwa
+        ? response.lighthouseResult.categories.pwa.score
+        : '',
       seoScore: response.lighthouseResult.categories.seo.score,
       firstContentfulPaint: Utils.convertDisplayValueToNumber(
         response.lighthouseResult.audits['first-contentful-paint'].displayValue
