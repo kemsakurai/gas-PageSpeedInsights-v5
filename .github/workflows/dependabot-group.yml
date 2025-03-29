@@ -18,21 +18,27 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         
-      - name: Setup Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: '16'
-          
+      # このアクションは直接PRをグループ化できる別のアクションに置き換え
       - name: Group Dependabot PRs
-        uses: bbeesley/gha-auto-dependabot-group@v1.3.0
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          group-name: 'dependencies'
-          group-title: 'chore(deps): まとめたdependabotアップデート'
-          checkout-dir: ${{ github.workspace }}
-          target-branch: 'main'  # プロジェクトのデフォルトブランチに合わせて調整
-          merge-strategy: 'rebase'
-          labels: 'dependencies'
-          max-pr-count: 10  # 一度にまとめるPRの最大数
+        uses: dependabot/fetch-metadata@v1.6.0
+        
+      - name: Find Dependabot PRs
+        id: find-prs
+        run: |
+          PR_NUMBERS=$(gh pr list --author "dependabot[bot]" --json number --jq '.[].number' | tr '\n' ' ')
+          echo "pr_numbers=$PR_NUMBERS" >> $GITHUB_OUTPUT
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      
+      - name: Group and comment on Dependabot PRs
+        if: steps.find-prs.outputs.pr_numbers != ''
+        run: |
+          for PR_NUMBER in ${{ steps.find-prs.outputs.pr_numbers }}; do
+            gh pr comment "$PR_NUMBER" --body "Dependabot PRs will be grouped and merged automatically."
+            gh pr merge --auto --squash "$PR_NUMBER"
+            gh pr edit "$PR_NUMBER" --add-label "dependencies"
+          done
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
