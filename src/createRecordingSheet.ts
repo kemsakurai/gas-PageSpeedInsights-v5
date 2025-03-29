@@ -2,15 +2,28 @@ import Utils from './Utils';
 
 export const createRecordingSheet = (): void => {
   Logger.log('createRecordingSheet start');
-  const sheetNames = Utils.getColumValues('config', 'B', 1);
-  for (let sheetName of sheetNames) {
-    let sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(sheetName);
+  const sheetNameRows = Utils.getColumValues('config', 'B', 1);
+  
+  for (let i = 0; i < sheetNameRows.length; i++) {
+    // 文字列値を安全に取り出す
+    const sheetNameValue = sheetNameRows[i] && sheetNameRows[i][0] ? String(sheetNameRows[i][0]) : '';
+    if (!sheetNameValue) {
+      Logger.log(`スキップ: 空のシート名 (インデックス ${i})`);
+      continue;
+    }
+    
+    const spreadsheet = SpreadsheetApp.getActiveSpreadsheet();
+    if (!spreadsheet) {
+      throw new Error('Active spreadsheet not found');
+    }
+    
+    let sheet = spreadsheet.getSheetByName(sheetNameValue);
     if (!sheet) {
-      sheet = SpreadsheetApp.getActiveSpreadsheet().insertSheet();
-      sheet.setName(sheetName);
+      sheet = spreadsheet.insertSheet();
+      sheet.setName(sheetNameValue);
       const range = sheet.getRange('A1:W1');
       range.setBackground('lightsteelblue');
-      const headers: string[] = new Array();
+      const headers: string[] = [];
       headers.push('DATE');
       headers.push('MOBILE.accessibilityScore');
       headers.push('MOBILE.bestPracticesScore');

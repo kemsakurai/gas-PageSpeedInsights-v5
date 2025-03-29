@@ -1,14 +1,19 @@
 {
   "compilerOptions": {
-    "target": "ES2019",
-    "module": "commonjs",
-    "lib": ["esnext"],
+    "target": "es2015",      // GASの現在の対応バージョンに合わせる
+    "module": "commonjs",    // 誤字修正
+    "lib": ["es2015"],       // targetと合わせる
+    "sourceMap": true,
+    "outDir": "./dist",
+    "rootDir": "./",
     "strict": true,
+    "noImplicitAny": true,
     "esModuleInterop": true,
-    "skipLibCheck": true,
-    "forceConsistentCasingInFileNames": true,
-    "outDir": "dist"
+    "resolveJsonModule": true,
+    "typeRoots": ["./node_modules/@types", "./src/types"],
+    "noUnusedLocals": true,         // 未使用変数のエラー検出
+    "noImplicitReturns": true,      // 関数の全パスで値を返すことを保証
+    "forceConsistentCasingInFileNames": true  // ファイル名の大文字小文字を厳格にチェック
   },
-  "include": ["src/**/*"],
-  "exclude": ["node_modules"]
+  "include": ["src/**/*", "__test__/**/*"]
 }

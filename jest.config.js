@@ -1,14 +1,12 @@
 module.exports = {
   preset: 'ts-jest',
   testEnvironment: 'node',
-  testMatch: ['**/__test__/**/*.test.ts'], // __test__ディレクトリを正しく参照
+  testMatch: ['**/__test__/**/*.test.ts'],
   transform: {
     '^.+\\.tsx?$': ['ts-jest', {
       tsconfig: 'tsconfig.json',
-    }],
+      isolatedModules: true
+    }]
   },
-  globals: {
-    SpreadsheetApp: {},
-    Logger: {}
-  }
+  setupFilesAfterEnv: ['./__test__/jest.setup.ts']
 };

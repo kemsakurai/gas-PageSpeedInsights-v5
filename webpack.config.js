@@ -14,7 +14,19 @@ module.exports = {
     rules: [
       {
         test: /\.ts$/,
-        use: 'ts-loader'
+        use: [
+          {
+            loader: 'ts-loader',
+            options: {
+              transpileOnly: false,
+              compilerOptions: {
+                target: 'es2015',
+                module: 'commonjs'
+              }
+            }
+          }
+        ],
+        exclude: /node_modules/
       },
       {
         test: /\.html$/,
