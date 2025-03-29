@@ -20,25 +20,55 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
         
-      # このアクションは直接PRをグループ化できる別のアクションに置き換え
-      - name: Group Dependabot PRs
-        uses: dependabot/fetch-metadata@v1.6.0
-        
       - name: Find Dependabot PRs
         id: find-prs
         run: |
-          PR_NUMBERS=$(gh pr list --author "dependabot[bot]" --json number --jq '.[].number' | tr '\n' ' ')
-          echo "pr_numbers=$PR_NUMBERS" >> $GITHUB_OUTPUT
+          # オープン状態のDependabotのPRを検索
+          PR_NUMBERS=$(gh pr list --author "dependabot[bot]" --state open --json number --jq '.[].number' | tr '\n' ' ')
+          if [ -z "$PR_NUMBERS" ]; then
+            echo "No open Dependabot PRs found."
+            echo "has_prs=false" >> $GITHUB_OUTPUT
+          else
+            echo "Found Dependabot PRs: $PR_NUMBERS"
+            echo "has_prs=true" >> $GITHUB_OUTPUT
+            echo "pr_numbers=$PR_NUMBERS" >> $GITHUB_OUTPUT
+          fi
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       
-      - name: Group and comment on Dependabot PRs
-        if: steps.find-prs.outputs.pr_numbers != ''
+      - name: Group and process Dependabot PRs
+        if: steps.find-prs.outputs.has_prs == 'true'
         run: |
-          for PR_NUMBER in ${{ steps.find-prs.outputs.pr_numbers }}; do
-            gh pr comment "$PR_NUMBER" --body "Dependabot PRs will be grouped and merged automatically."
-            gh pr merge --auto --squash "$PR_NUMBER"
+          # PRが2つ以上ある場合、一括処理する
+          PR_COUNT=$(echo ${{ steps.find-prs.outputs.pr_numbers }} | wc -w)
+          
+          if [ "$PR_COUNT" -gt 1 ]; then
+            echo "Multiple PRs found, grouping them together"
+            
+            # すべてのPRに「grouped」ラベルを追加
+            for PR_NUMBER in ${{ steps.find-prs.outputs.pr_numbers }}; do
+              gh pr comment "$PR_NUMBER" --body "このPRは他のDependabot PRsと共に処理されます。"
+              gh pr edit "$PR_NUMBER" --add-label "dependencies,grouped"
+            done
+            
+            # 最初のPRをベースとして使用し、残りをマージ
+            PR_ARRAY=(${{ steps.find-prs.outputs.pr_numbers }})
+            BASE_PR=${PR_ARRAY[0]}
+            
+            echo "Using PR #$BASE_PR as the base PR"
+            gh pr edit "$BASE_PR" --title "chore(deps): まとめたDependabot依存関係の更新"
+            
+            # 残りのPRを自動マージ
+            for ((i=1; i<${#PR_ARRAY[@]}; i++)); do
+              PR=${PR_ARRAY[$i]}
+              echo "Auto-merging PR #$PR into the base PR"
+              gh pr merge --auto --squash "$PR"
+            done
+          else
+            echo "Only one PR found, processing individually"
+            PR_NUMBER=${{ steps.find-prs.outputs.pr_numbers }}
             gh pr edit "$PR_NUMBER" --add-label "dependencies"
-          done
+            gh pr merge --auto --squash "$PR_NUMBER"
+          fi
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

@@ -3,6 +3,8 @@ name: Dependabot Auto-merge
 on:
   pull_request:
     branches: [ main, master ]
+  pull_request_target:
+    branches: [ main, master ]
   
   # 手動で実行することも可能
   workflow_dispatch:
