@@ -1,0 +1,38 @@
+name: Group Dependabot PRs
+
+on:
+  schedule:
+    # 毎週月曜日の午前3時に実行（UTCタイムゾーン）
+    - cron: '0 3 * * 1'
+  
+  # 手動で実行することも可能
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  dependabot-group:
+    name: Group Dependabot PRs
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '16'
+          
+      - name: Group Dependabot PRs
+        uses: bbeesley/gha-auto-dependabot-group@v1.3.0
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          group-name: 'dependencies'
+          group-title: 'chore(deps): まとめたdependabotアップデート'
+          checkout-dir: ${{ github.workspace }}
+          target-branch: 'main'  # プロジェクトのデフォルトブランチに合わせて調整
+          merge-strategy: 'rebase'
+          labels: 'dependencies'
+          max-pr-count: 10  # 一度にまとめるPRの最大数
