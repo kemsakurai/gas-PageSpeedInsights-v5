@@ -1,8 +1,11 @@
 <html>
 <head>
+<!-- Google JS APIの読み込み -->
 <script src="//www.google.com/jsapi"></script><script>window.parent.maeExportApis_();</script>
+<!-- Google Apps Scriptのスタイルシート -->
 <link rel="stylesheet" href="https://ssl.gstatic.com/docs/script/css/add-ons.css">
 <style>
+/* 基本スタイル設定 */
 body {
   margin: 0;
 }
@@ -13,14 +16,20 @@ select {
   margin: 0 6px;
   padding-left: 6px;
 }
+/* フォーム行のマージン設定 */
 .form-row {
   margin: 10px 0 20px;
 }
+/* アクションボタンエリアのマージン設定 */
 .form-action {
   margin: 30px 0 0;
 }
 </style>
-</head><body style=""><form id="schedule">
+</head>
+<body style="">
+<!-- スケジュール設定フォーム -->
+<form id="schedule">
+  <!-- 自動実行有効/無効の設定 -->
   <div id="automate-container" class="form-row">
     <label>
       <input name="automate" type="hidden" value="0">
@@ -28,7 +37,10 @@ select {
       Enable reports to run automatically.
     </label>
   </div>
+  
+  <!-- 自動実行のオプション（初期状態では非表示） -->
   <div class="form-row" id="automate-options-container" style="display:none">
+    <!-- 実行間隔の設定 -->
     <label id="interval-container">
       Schedule reports to run
       <select id="interval" name="interval">
@@ -39,6 +51,8 @@ select {
                   <option value="4">every month</option>
       </select>
     </label>
+    
+    <!-- 曜日選択（週次実行時のみ表示） -->
     <label id="dayOfWeek-container" style="display:none">
       on
       <select id="dayOfWeek" name="dayOfWeek">
@@ -58,6 +72,8 @@ select {
             Sunday          </option>
               </select>
     </label>
+    
+    <!-- 日付選択（月次実行時のみ表示） -->
     <label id="dayOfMonth-container" style="display:none">
       on the
       <select id="dayOfMonth" name="dayOfMonth">
@@ -126,6 +142,7 @@ select {
               </select>
     </label>
 
+    <!-- 時間帯選択 -->
     <label id="hourOfDay-container">
       between
       <select id="hourOfDay" name="hourOfDay">
@@ -179,6 +196,8 @@ select {
             11 p.m. &nbsp;–&nbsp; midnight        </option>
               </select>
     </label>
+    
+    <!-- 分間隔選択（分ベース実行時のみ表示） -->
     <label id="minituesOfHour-container" style="display:none">
       every 
             <select id="minitueOfHour" name="minitueOfHour">
@@ -191,6 +210,7 @@ select {
     </label>
   </div>
 
+  <!-- フォーム送信ボタン -->
   <div class="form-action">
     <button class="action" type="submit">Save</button>
     <button onclick="google.script.host.close()" type="button">Cancel</button>
@@ -198,53 +218,62 @@ select {
 
 </form>
 
+<!-- jQueryライブラリ読み込み -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
 <script>
+// フォーム送信時の処理
 $('#schedule').on('submit', function(e) {
   e.preventDefault();
   var formData = $(this).serializeArray();
+  // Google Apps Scriptの関数を呼び出し
   google.script.run
       .withSuccessHandler(google.script.host.close)
       .withFailureHandler(alert)
       .updateSchedule(formData);
 });
+
+// 自動実行チェックボックスの切り替え時の処理
 $('#automate').on('click', function() {
   if ($(this).is(':checked')) {
+    // チェックされたらオプションを表示
     $('#automate-options-container').show();
     google.script.host.setHeight($(document.body).height());
   }
   else {
+    // チェック解除されたらオプションを非表示
     $('#automate-options-container').hide();
     google.script.host.setHeight($(document.body).height());
   }
 });
+
+// 実行間隔変更時の表示制御
 $('#interval').on('change', function() {
   switch (+$(this).val()) {
-    case 0:
+    case 0: // 分ベース
       $('#minituesOfHour-container').show();
       $('#dayOfWeek-container').hide();
       $('#dayOfMonth-container').hide();
       $('#hourOfDay-container').hide();
       break;
-    case 1: 
+    case 1: // 時間ごと
       $('#minituesOfHour-container').hide();
       $('#dayOfWeek-container').hide();
       $('#dayOfMonth-container').hide();
       $('#hourOfDay-container').hide();
       break;
-    case 2: 
+    case 2: // 毎日
       $('#minituesOfHour-container').hide();
       $('#dayOfWeek-container').hide();
       $('#dayOfMonth-container').hide();
       $('#hourOfDay-container').show();
       break;
-    case 3: 
+    case 3: // 毎週
       $('#minituesOfHour-container').hide();
       $('#dayOfWeek-container').show();
       $('#dayOfMonth-container').hide();
       $('#hourOfDay-container').show();
       break;
-    case 4: 
+    case 4: // 毎月
       $('#minituesOfHour-container').hide();
       $('#dayOfWeek-container').hide();
       $('#dayOfMonth-container').show();
@@ -252,6 +281,9 @@ $('#interval').on('change', function() {
       break;
   }
 });
+
+// ダイアログの高さを設定
 google.script.host.setHeight($(document.body).height());
 </script>
-</body></html>
+</body>
+</html>
