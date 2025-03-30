@@ -1,3 +1,15 @@
+// グローバルオブジェクトの型拡張
+declare global {
+  namespace NodeJS {
+    interface Global {
+      ScriptApp: any;
+      PropertiesService: any;
+      Session: any;
+      Logger: any;
+    }
+  }
+}
+
 // GASオブジェクトのモック（インポート前に必ず配置）
 const mockDeleteProperty = jest.fn();
 const mockGetProperty = jest.fn();

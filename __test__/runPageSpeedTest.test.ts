@@ -1,30 +1,12 @@
-// 型定義の追加（ファイルの先頭に記述）
-declare namespace NodeJS {
-  interface Global {
-    SpreadsheetApp: any;
-    Logger: any;
-  }
-}
+// 型定義の代わりにヘルパーを使用
+import { setupAllGasMocks } from './helpers/gasMocks';
 
-// GASオブジェクトのモック（インポート前に配置）
-const mockSheet = {
-  getLastRow: jest.fn().mockReturnValue(1),
-  getRange: jest.fn().mockReturnValue({
-    setValues: jest.fn()
-  })
-};
+// GASオブジェクトのモックを設定
+const mocks = setupAllGasMocks();
 
-const mockSpreadsheet = {
-  getSheetByName: jest.fn().mockReturnValue(mockSheet)
-};
-
-global.SpreadsheetApp = {
-  getActiveSpreadsheet: jest.fn().mockReturnValue(mockSpreadsheet)
-} as any;
-
-global.Logger = {
-  log: jest.fn()
-} as any;
+// 既存のモックを適用するためにmockSheetとmockSpreadsheetを更新
+const mockSheet = mocks.mockSheet;
+const mockSpreadsheet = mocks.mockSpreadsheet;
 
 // モジュールをモック化
 jest.mock('../src/PageSpeedInsightV5', () => {
@@ -108,7 +90,9 @@ describe('runPageSpeedTest', () => {
     expect(SpreadsheetApp.getActiveSpreadsheet).toHaveBeenCalled();
     expect(mockSpreadsheet.getSheetByName).toHaveBeenCalledWith('TestSheet');
     expect(mockSheet.getLastRow).toHaveBeenCalled();
-    expect(mockSheet.getRange).toHaveBeenCalledWith('A2:W2');
+    
+    // モックの動作に合わせて期待値を修正（getLastRowが10を返すため、次の行は11）
+    expect(mockSheet.getRange).toHaveBeenCalledWith('A11:W11');
     expect(mockSheet.getRange().setValues).toHaveBeenCalledTimes(1);
   });
 

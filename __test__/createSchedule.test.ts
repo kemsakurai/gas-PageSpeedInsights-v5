@@ -1,43 +1,42 @@
+import { setupAllGasMocks } from './helpers/gasMocks';
 import { createSchedule } from '../src/createSchedule';
 
-// GASのグローバルオブジェクトをモック化
-const mockHtmlOutput = {
-  setWidth: jest.fn().mockReturnThis(),
-  setHeight: jest.fn().mockReturnThis()
-};
-
-const mockUi = {
-  showModalDialog: jest.fn()
-};
-
-// グローバル変数として直接モック化
-global.HtmlService = {
-  createHtmlOutputFromFile: jest.fn().mockReturnValue(mockHtmlOutput)
-} as any;
-
-global.SpreadsheetApp = {
-  getUi: jest.fn().mockReturnValue(mockUi)
-} as any;
+// GASオブジェクトのモックを設定
+const mocks = setupAllGasMocks();
 
 describe('createSchedule', () => {
   beforeEach(() => {
-    // テスト前にモックをリセット
     jest.clearAllMocks();
   });
 
-  test('正しいHTMLファイルでモーダルダイアログを表示すること', () => {
-    // 関数実行
+  it('ダイアログを表示すること', () => {
+    // UIモックを準備する
+    (global as any).SpreadsheetApp.getUi = jest.fn().mockReturnValue({
+      showModalDialog: jest.fn()
+    });
+    
+    // テンプレートの代わりにHTMLモックを作成
+    const mockHtmlOutput = {
+      setWidth: jest.fn().mockReturnThis(),
+      setHeight: jest.fn().mockReturnThis(),
+    };
+    
+    // createHtmlOutputFromFileメソッドをモック化（実際のコードが使用しているメソッド名に合わせる）
+    (global as any).HtmlService.createHtmlOutputFromFile = jest.fn().mockReturnValue(mockHtmlOutput);
+    
+    // 関数を実行
     createSchedule();
     
-    // HtmlServiceが正しいファイル名で呼び出されたか検証
+    // HtmlServiceが使用されたことを確認
     expect(HtmlService.createHtmlOutputFromFile).toHaveBeenCalledWith('updateSchedule');
-    
-    // 幅と高さが正しく設定されたか検証
     expect(mockHtmlOutput.setWidth).toHaveBeenCalledWith(600);
     expect(mockHtmlOutput.setHeight).toHaveBeenCalledWith(100);
     
-    // UIでモーダルダイアログが表示されたか検証
+    // UIダイアログが表示されたことを確認
     expect(SpreadsheetApp.getUi).toHaveBeenCalled();
-    expect(mockUi.showModalDialog).toHaveBeenCalledWith(mockHtmlOutput, 'Create schedule');
+    expect(SpreadsheetApp.getUi().showModalDialog).toHaveBeenCalledWith(
+      mockHtmlOutput,
+      'Create schedule'
+    );
   });
 });
